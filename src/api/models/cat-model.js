@@ -17,25 +17,22 @@ const catItems = [
   },
 ];
 
-const listAllCats = () => {
-  return catItems;
-};
+const listAllCats = () => catItems;
 
-const findCatById = (id) => {
-  return catItems.find((item) => item.cat_id == id);
-};
+const findCatById = (id) => catItems.find((item) => item.cat_id == id);
 
 const addCat = (cat) => {
   const { cat_name, weight, owner, filename, birthdate } = cat;
-  const newId = catItems[0].cat_id + 1;
-  catItems.unshift({
+  const newId = catItems.length > 0 ? catItems[0].cat_id + 1 : 1;
+  const newCat = {
     cat_id: newId,
     cat_name,
-    weight,
-    owner,
-    filename,
+    weight: Number(weight),
+    owner: Number(owner),
+    filename: filename || "",
     birthdate,
-  });
+  };
+  catItems.unshift(newCat);
   return { cat_id: newId };
 };
 
