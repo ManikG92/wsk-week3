@@ -74,3 +74,17 @@ Content-Type: application/json
 {
   "name": "Updated Cat Owner Name"
 }
+
+### Test validation error on user creation (Empty / invalid data)
+POST http://127.0.0.1:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "name": "",
+  "username": "x",
+  "email": "not-an-email",
+  "password": "short"
+}
+
+### Test 404 handler with a non-existent route
+GET http://127.0.0.1:3000/api/v1/nonexistent-endpoint
