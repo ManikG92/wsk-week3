@@ -42,6 +42,7 @@ const postCat = async (req, res) => {
   try {
     const catData = {
       ...req.body,
+      owner: res.locals.user.user_id, // Automatically assign the logged-in user
       filename: req.file ? req.file.filename : null,
     };
     const result = await addCat(catData);
@@ -57,11 +58,11 @@ const postCat = async (req, res) => {
 
 const putCat = async (req, res) => {
   try {
-    const result = await modifyCat(req.body, req.params.id);
+    const result = await modifyCat(req.body, req.params.id, res.locals.user);
     if (result) {
       res.json(result);
     } else {
-      res.sendStatus(404);
+      res.sendStatus(403);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -70,11 +71,11 @@ const putCat = async (req, res) => {
 
 const deleteCat = async (req, res) => {
   try {
-    const result = await removeCat(req.params.id);
+    const result = await removeCat(req.params.id, res.locals.user);
     if (result) {
       res.json(result);
     } else {
-      res.sendStatus(404);
+      res.sendStatus(403);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import {
   listAllUsers,
   findUserById,
@@ -30,6 +31,9 @@ const getUserById = async (req, res) => {
 
 const postUser = async (req, res) => {
   try {
+    if (req.body.password) {
+      req.body.password = bcrypt.hashSync(req.body.password, 10);
+    }
     const result = await addUser(req.body);
     if (result && result.user_id) {
       res.status(201).json({ message: "New user added.", result });
@@ -43,7 +47,17 @@ const postUser = async (req, res) => {
 
 const putUser = async (req, res) => {
   try {
-    const result = await modifyUser(req.body, req.params.id);
+    // Only admin or user themselves can modify
+    if (
+      res.locals.user.role !== "admin" &&
+      Number(res.locals.user.user_id) !== Number(req.params.id)
+    ) {
+      return res.sendStatus(403);
+    }
+    if (req.body.password) {
+      req.body.password = bcrypt.hashSync(req.body.password, 10);
+    }
+    const result = await modifyUser(req.body, req.params.id, res.locals.user);
     if (result) {
       res.json(result);
     } else {
@@ -56,7 +70,14 @@ const putUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const result = await removeUser(req.params.id);
+    // Only admin or user themselves can delete
+    if (
+      res.locals.user.role !== "admin" &&
+      Number(res.locals.user.user_id) !== Number(req.params.id)
+    ) {
+      return res.sendStatus(403);
+    }
+    const result = await removeUser(req.params.id, res.locals.user);
     if (result) {
       res.json(result);
     } else {
