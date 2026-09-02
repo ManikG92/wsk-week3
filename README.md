@@ -1,7 +1,5 @@
 # Web Server Development
 
-Assignments for the Web Server Development course.
-
 ## Authorization Rules
 
 _Public Endpoints_ - Can be accessed without authentication:
