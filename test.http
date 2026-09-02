@@ -13,7 +13,7 @@ Content-Disposition: form-data; name="weight"
 --MyBoundary
 Content-Disposition: form-data; name="owner"
 
-3602
+1
 --MyBoundary
 Content-Disposition: form-data; name="birthdate"
 
@@ -27,3 +27,15 @@ Content-Type: image/jpeg
 
 ### Get all cats to verify upload
 GET http://127.0.0.1:3000/api/v1/cats
+
+### Get all cats (verify database data & owner_name)
+GET http://127.0.0.1:3000/api/v1/cats
+
+### Get single cat by ID
+GET http://127.0.0.1:3000/api/v1/cats/41
+
+### Get all users
+GET http://127.0.0.1:3000/api/v1/users
+
+### Get cats belonging to a specific user (Requirement 4)
+GET http://127.0.0.1:3000/api/v1/users/1/cats

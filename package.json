@@ -8,8 +8,10 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
     "express": "^4.19.2",
     "multer": "^2.3.0",
+    "mysql2": "^3.24.3",
     "sharp": "^0.35.4"
   },
   "devDependencies": {
